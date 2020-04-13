@@ -1,3 +1,1 @@
 "0","fromJSON(""https://www.dropbox.com/s/qnm9bnz7vccrvcz/taipeiNightMarkets.json?dl=1"", simplifyDataFrame = F) -> taipeiNightMarkets"
-"2","錯誤: Required package curl not found. Please run: install.packages('curl')
-"

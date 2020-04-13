@@ -1,0 +1,7 @@
+"0","get1<-listExample[[""學期""]]"
+"0","str(get, max.level=1)"
+"1","function (x, pos = -1L, envir = as.environment(pos), 
+    mode = ""any"", inherits = TRUE) "
+"1"," "
+"1","
+"
