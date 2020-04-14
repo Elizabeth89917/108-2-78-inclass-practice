@@ -1,0 +1,7 @@
+"0","taiwan_time<-ymd_hms(""2019-04-12 12:55:30"","
+"0","                     tz=""Asia/Taipei"")"
+"0","oslo_time <-dmy_hms(""18-11-2018 15:33:02"","
+"0","                    tz=""Europe/Oslo"") "
+"0","two_times<-c(taiwan_time,oslo_time)"
+"0",""
+"0","# two_times"

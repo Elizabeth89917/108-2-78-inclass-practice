@@ -420,3 +420,7 @@ majors <- c("經濟學系","經濟學系","社會學系","社工系","經濟學�
 names <- c("小英", "小美", "大雄","阿華", "阿尼")
 gender <- c("F","F","M","F","M")
 ```
+
+```{r}
+source("https://www.dropbox.com/s/mk7bxvu6a3lxf79/studentEnvironmentReport.R?dl=1",print.eval = T)
+```
