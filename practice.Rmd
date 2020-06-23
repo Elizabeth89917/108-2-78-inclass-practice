@@ -1263,3 +1263,323 @@ convert_TaiwanDate2WesternDate <- function(twDate){
 twDate <-  c("民國108年12月5日","民國98年10月5日")
 convert_TaiwanDate2WesternDate(twDate)
 ```
+```{r}
+# n 為偶數
+n <- 54
+fvalue <- n/2
+
+# n 為奇數
+n <- 33
+fvalue <- -(n+1)/2
+```
+
+```{r}
+(n %% 2)==1 # 表示「奇數」; 或...
+
+as.logical(n %% 2) # 只有0會變F，其他數值都是T
+```
+
+```{r}
+myFun <- function(n){
+  if(as.logical(n %% 2)){
+    fvalue <- -(n+1)/2
+  } else {
+    fvalue <- n/2
+  }
+  return(fvalue)
+}
+
+myFun(54)
+myFun(33)
+```
+
+```{r}
+compute_howEarly <- function(student_i_section, student_i_time){
+  # student_i_section <- examSubmissionTime$section[[i]]
+  # student_i_time <- examSubmissionTime$time[[i]]
+  
+  if(student_i_section=="56"){
+    deadline <- lubridate::ymd_hms("2020-05-27 15:00:00", tz="Asia/Taipei")
+  } else {
+    deadline <- lubridate::ymd_hms("2020-05-27 17:00:00", tz="Asia/Taipei")
+  }
+  
+  howEarly <- deadline - lubridate::ymd_hms(student_i_time, tz="Asia/Taipei")
+  # print(howEarly)
+  
+  return(howEarly)
+}
+```
+
+```{r}
+compute_howEarly(examSubmissionTime$section[[1]],examSubmissionTime$time[[1]])
+compute_howEarly(examSubmissionTime$section[[2]],examSubmissionTime$time[[2]])
+compute_howEarly(examSubmissionTime$section[[3]],examSubmissionTime$time[[3]])
+```
+
+```{r}
+map(
+  ,
+  ~compute_howEarly(.x, .x)
+)
+```
+
+```{r}
+numberSep <- 1:length(examSubmissionTime$section)
+library(purrr)
+map(
+  numberSep,
+  ~compute_howEarly(examSubmissionTime$section[[.x]],examSubmissionTime$time[[.x]])
+) %>%
+  unlist() -> examSubmissionTime$howEarly
+```
+
+
+```{r}
+miniFun <- function(){
+  lubridate::now()
+}
+miniFun()
+```
+```{r}
+miniFun2 <- function() lubridate::now()
+miniFun2()
+```
+```{r}
+result <- 
+  {
+    x <- 2
+    y <- 3
+    x**y+15
+  }
+print(result)
+```
+```{r}
+result2 <-
+  {
+    x <- 2
+    y <- 3
+    if(x< 3){
+      warning("x值太小")
+    } else {
+      x**y+15
+    }
+  }
+print(result2)
+```
+```{r}
+grade <- sample(1:100, 10, replace=T)
+grade 
+cut(grade, c(-1,69,79,89,100))
+grade %>%
+  cut(c(-1,69,79,89,100)) -> grade
+
+levels(grade)
+
+switch(
+  as.character(grade[[1]]),
+  "(-1,69]"={
+    print("-_-")
+    "F"},
+  "(69,79]"={
+    print("棒")
+    "C"
+    },
+  "(79,89]"={
+    print("好棒")
+    "B"
+    },
+  "(89,100]"={
+    print("好棒棒")
+    "A"
+    }
+) -> letterGrade # 有回存時要螢幕印出的訊息一定要加print
+```
+
+```{r}
+nowtime <- glue::glue("{today()} 18:00:00") %>% ymd_hms(tz="Asia/Taipei")
+
+library(lubridate)
+library(glue)
+
+# 建立可當cutpoints的一天時間點
+cutpoints <-
+  c(
+    glue("{today()} 06:00:00"),
+    glue("{today()} 09:00:00"),
+    glue("{today()} 17:00:00"),
+    glue("{today()} 19:00:00"),
+    glue("{today()} 23:30:00"),
+    glue("{today()+days(1)} 01:00:00")
+  )
+cutpoints %>%
+  ymd_hms(tz="Asia/Taipei") -> cutpoints
+
+## 將nowtime轉成它對應的時段是"morning", "evening", 或其他。
+cut(nowtime, cutpoints) -> nowtime
+levels(nowtime)[c(1,3,5)] <-
+  c("morning","evening","jazz time")
+
+## 使用switch決定要做什麼事
+switch(
+  as.character(nowtime),
+  "morning"={
+    print("要不要來閱讀點國際時事？")
+    browseURL("https://economist.com")
+  },
+  "evening"={
+    print("需不需要點餐呢？")
+    browseURL("https://www.foodpanda.com.tw/")
+  },
+  "jazz time"={
+    print("放鬆聽點Jazz。")
+    browseURL("https://open.spotify.com/playlist/37i9dQZF1DXbITWG1ZJKYt")
+  },
+  {
+    print("機器人要休息，饒了我吧～～")
+  }
+)
+```
+```{r}
+grade <- sample(1:100, 10, replace=T)
+
+grade %>%
+  cut(c(-1,69,79,89,100)) -> grade
+
+levels(grade)
+
+switch(
+  as.character(grade[[1]]),
+  "(-1,69]"={
+    print("-_-")
+    "F"},
+  "(69,79]"={
+    print("棒")
+    "C"
+    },
+  "(79,89]"={
+    print("好棒")
+    "B"
+    },
+  "(89,100]"={
+    print("好棒棒")
+    "A"
+    }
+) -> letterGrade # 有回存時要螢幕印出的訊息一定要加print
+```
+
+```{r}
+nowtime <- glue::glue("{today()} 18:00:00") %>% ymd_hms(tz="Asia/Taipei")
+
+library(lubridate)
+library(glue)
+
+# 建立可當cutpoints的一天時間點
+cutpoints <-
+  c(
+    glue("{today()} 06:00:00"),
+    glue("{today()} 09:00:00"),
+    glue("{today()} 17:00:00"),
+    glue("{today()} 19:00:00"),
+    glue("{today()} 23:30:00"),
+    glue("{today()+days(1)} 01:00:00")
+  )
+cutpoints %>%
+  ymd_hms(tz="Asia/Taipei") -> cutpoints
+
+## 將nowtime轉成它對應的時段是"morning", "evening", 或其他。
+cut(nowtime, cutpoints) -> nowtime
+levels(nowtime)[c(2,4,6)] <-
+  c("morning","evening","jazz time")
+
+## 使用switch決定要做什麼事
+switch(
+  as.character(nowtime),
+  "morning"={
+    print("要不要來閱讀點國際時事？")
+    browseURL("https://economist.com")
+  },
+  "evening"={
+    print("需不需要點餐呢？")
+    browseURL("https://www.foodpanda.com.tw/")
+  },
+  "jazz time"={
+    print("放鬆聽點Jazz。")
+    browseURL("https://open.spotify.com/playlist/37i9dQZF1DXbITWG1ZJKYt")
+  },
+  {
+    print("機器人要休息，饒了我吧～～")
+  }
+)
+```
+```{r}
+whatNeedToDo_butler_mom <- function(nowtime=now()){
+  library(lubridate)
+  library(glue)
+
+  cutpoints <-
+    c(
+      glue("{today()} 06:00:00"),
+      glue("{today()} 09:00:00"),
+      glue("{today()} 17:00:00"),
+      glue("{today()} 19:00:00"),
+      glue("{today()} 23:30:00"),
+      glue("{today()+days(1)} 01:00:00")
+    )
+  cutpoints %>%
+    ymd_hms(tz="Asia/Taipei") -> cutpoints
+  
+  cut(nowtime, cutpoints) -> nowtime
+  levels(nowtime)[c(1,3,5)] <-
+    c("morning","evening","jazz time")
+  
+  switch(
+    as.character(nowtime),
+    "morning"={
+      print("要不要來閱讀點國際時事？")
+      browseURL("https://economist.com")
+    },
+    "evening"={
+      print("需不需要點餐呢？")
+      browseURL("https://www.foodpanda.com.tw/")
+    },
+    "jazz time"={
+      print("放鬆聽點Jazz。")
+      browseURL("https://open.spotify.com/playlist/37i9dQZF1DXbITWG1ZJKYt")
+    },
+    {
+      print("機器人要休息，饒了我吧～～")
+    }
+  )
+}
+
+ymd_hms(glue::glue("{today()} 08:00:00"),tz="Asia/Taipei") %>%
+  whatNeedToDo_butler_mom()
+
+ymd_hms(glue::glue("{today()} 14:00:00"),tz="Asia/Taipei") %>%
+  whatNeedToDo_butler_mom()
+
+ymd_hms(glue::glue("{today()} 18:00:00"),tz="Asia/Taipei") %>%
+  whatNeedToDo_butler_mom()
+
+ymd_hms(glue::glue("{today()+days(1)} 00:20:00"),tz="Asia/Taipei") %>%
+  whatNeedToDo_butler_mom()
+```
+
+```{r}
+myAnswer <- c(2,3,6)
+correctAnswer <- c(2,3,5)
+
+if(myAnswer == correctAnswer){ # 只取用第一個T/F
+  print("你答對了")
+}
+```
+
+```{r}
+myAnswer <- c(2,3,6)
+correctAnswer <- c(2,3,5)
+
+if(all(myAnswer == correctAnswer)){ # 要全TRUE
+  print("你答對了")
+}
+```
